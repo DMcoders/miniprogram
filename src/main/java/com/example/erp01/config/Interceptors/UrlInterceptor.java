@@ -11,10 +11,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-/**
- * Created by hujian on 2019/3/23
- */
-
 @Component
 public class UrlInterceptor  implements HandlerInterceptor {
 

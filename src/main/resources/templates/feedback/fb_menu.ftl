@@ -58,6 +58,20 @@
                                 <li<#if menuTag==44> class="active" style="background:rgb(45, 202, 147)" </#if>><a href="/userStart"> <span class="liActive">用户信息</span> </a></li>
                             </ul>
                         </li>
+                        <li <#if bigMenuTag==5> class="active"</#if>> <a href="#" <#if bigMenuTag==5> class="active"</#if>> <i class="fa fa-clock-o fa-flip-horizontal icon"></i>
+                            <span class="pull-right"> <i class="fa fa-angle-down text"></i> <i class="fa fa-angle-up text-active"></i> </span>
+                            <span>计件管理</span> </a>
+                            <ul class="nav lt">
+                                <li<#if menuTag==51> class="active" style="background:rgb(45, 202, 147)" </#if>><a href="/orderProcedureStart"><span class="liActive">订单工序录入</span> </a></li>
+                                <li<#if menuTag==52> class="active" style="background:rgb(45, 202, 147)" </#if>><a href="/cutReportStart"><span class="liActive">生产统计</span> </a></li>
+                                <li<#if menuTag==53> class="active" style="background:rgb(45, 202, 147)" </#if>><a href="/storageReportStart"><span class="liActive">排产明细</span> </a></li>
+                                <li<#if menuTag==54> class="active" style="background:rgb(45, 202, 147)" </#if>><a href="/opaBackQueryStart"><span class="liActive">质检统计</span> </a></li>
+                                <li<#if menuTag==55> class="active" style="background:rgb(45, 202, 147)" </#if>><a href="/cutQueryLeakStart"><span class="liActive">抽检明细</span> </a></li>
+                            </ul>
+                        </li>
+
+
+
                         <#elseif role! == 'role1'>
                         <li <#if bigMenuTag==1> class="active"</#if>> <a href="#" <#if bigMenuTag==1> class="active"</#if>> <i class="fa fa-clock-o fa-flip-horizontal icon"></i>
                             <span class="pull-right"> <i class="fa fa-angle-down text"></i> <i class="fa fa-angle-up text-active"></i> </span>

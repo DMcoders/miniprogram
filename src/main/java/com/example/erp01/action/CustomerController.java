@@ -30,7 +30,7 @@ public class CustomerController {
     public String customerStart(Model model){
         model.addAttribute("bigMenuTag",4);
         model.addAttribute("menuTag",43);
-        List<Customer>  customers = getAllCustomer();
+        List<Customer> customers = getAllCustomer();
         model.addAttribute("customers",customers);
         return "factoryMsg/customer";
     }
