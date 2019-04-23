@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp01.mapper.TailorMapper">
+
+    <insert id="saveTailorData" parameterType="java.util.List">
+        INSERT IGNORE INTO tailor(orderName,customerName,bedNumber,jarName,colorName,sizeName,partName,layerCount,packageNumber,tailorQcode) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.orderName},#{item.customerName},#{item.bedNumber},#{item.jarName},#{item.colorName},#{item.sizeName},#{item.partName},#{item.layerCount},#{item.packageNumber},#{item.tailorQcode})
+        </foreach>
+    </insert>
+
+    <select id="getAllTailorData" resultType="map">
+        SELECT * FROM tailor
+    </select>
+
+    <select id="getAllTailorDataByOrder" resultType="map">
+        SELECT * FROM tailor WHERE orderName=#{orderName}
+    </select>
+    <select id="getMaxBedNumber" resultType="java.lang.Integer">
+        SELECT MAX(bedNumber) FROM tailor WHERE orderName=#{orderName}
+    </select>
+
+    <select id="getTailorByOrderNameBedNum" resultType="map">
+        SELECT min(orderName) as orderName,min(customerName) as customerName,min(bedNumber) as bedNumber,min(colorName) as colorName,min(sizeName) as sizeName,count(*) as opaTailorCount FROM tailor WHERE orderName=#{orderName} AND bedNumber=#{bedNumber} GROUP BY colorName,sizeName
+    </select>
+
+    <select id="getTailorByOrderNameBedNumSizeColorPart" resultType="com.example.erp01.model.Tailor">
+        SELECT orderName,customerName,bedNumber,jarName,colorName,sizeName,partName,layerCount,packageNumber,tailorQcode FROM tailor WHERE orderName=#{orderName} AND bedNumber=#{bedNumber} AND sizeName=#{sizeName} AND colorName=#{colorName} AND partName=#{partName}
+    </select>
+
+    <select id="getBedNumbersByOrderName" resultType="map">
+        SELECT DISTINCT bedNumber FROM tailor WHERE orderName=#{orderName}
+    </select>
+
+    <select id="getSizeNamesByOrderName" resultType="map">
+        SELECT distinct sizename FROM tailor WHERE orderName=#{orderName}
+    </select>
+
+    <select id="tailorReport" resultType="hashmap">
+        SELECT DISTINCT colorName,sizeName,packageNumber,layerCount FROM tailor WHERE orderName=#{orderName} AND bedNumber=#{bedNumber}
+    </select>
+
+    <select id="getTailorCountByOrderNameBedNum" resultType="int">
+        SELECT COUNT(*) FROM tailor WHERE orderName=#{orderName} AND bedNumber=#{bedNumber}
+    </select>
+
+    <select id="getPartNamesByOrderName" resultType="map">
+        SELECT DISTINCT partName FROM tailor WHERE orderName=#{orderName}
+    </select>
+
+    <select id="getTailorCountByOrderNameBedNumPart" resultType="int">
+        SELECT COUNT(*) FROM tailor WHERE orderName=#{orderName} AND bedNumber=#{bedNumber} AND partName=#{partName}
+    </select>
+
+    <select id="getTailorByOrderNameBedNumPart" resultType="com.example.erp01.model.Tailor">
+        SELECT min(orderName) as orderName,min(customerName) as customerName,min(bedNumber) as bedNumber,min(colorName) as colorName,min(sizeName) as sizeName,count(*) as layerCount FROM tailor WHERE orderName=#{orderName} AND bedNumber=#{bedNumber} AND partName=#{partName} GROUP BY colorName,sizeName
+    </select>
+
+    <select id="tailorMonthReport" resultType="hashmap">
+        SELECT DISTINCT orderName,bedNumber FROM tailor WHERE
+        <if test="beginTime != null and endTime != null and beginTime != '' and endTime != ''">
+            AND updateTime BETWEEN #{beginTime} AND #{endTime}
+        </if>
+    </select>
+
+    <select id="getTailorInfoByName" resultType="com.example.erp01.model.CutQueryLeak">
+        SELECT colorName,sizeName,SUM(layerCount) as layerCount FROM tailor WHERE partName=(SELECT DISTINCT partName FROM tailor LIMIT 1) AND orderName=#{orderName} GROUP BY colorName,sizeName
+    </select>
+
+</mapper>

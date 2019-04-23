@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp01.mapper.EmbStoreMapper">
+
+    <insert id="addEmbStore">
+        INSERT INTO embstore(embStoreLocation,embStoreCount) VALUES (#{embStoreLocation},#{embStoreCount})
+    </insert>
+
+    <delete id="deleteEmbStore">
+        DELETE FROM embstore WHERE embStoreID = #{embStoreID}
+    </delete>
+
+    <update id="updateEmbStore" parameterType="com.example.erp01.model.EmbStore">
+        UPDATE embstore SET
+        embStoreLocation=#{embStoreLocation},
+        embStoreCount=#{embStoreCount}
+        WHERE embStoreID=#{embStoreID}
+    </update>
+
+    <select id="getAllEmbStore" resultType="map">
+        SELECT * FROM embstore
+    </select>
+
+    <select id="getEmbStoreByLocation" parameterType="java.lang.String" resultType="com.example.erp01.model.EmbStore">
+        SELECT * FROM embstore WHERE embStoreLocation=#{embStoreLocation}
+    </select>
+
+</mapper>

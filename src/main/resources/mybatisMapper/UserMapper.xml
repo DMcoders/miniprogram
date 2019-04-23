@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp01.mapper.UserMapper">
+
+    <select id="userLogin" resultType="com.example.erp01.model.User">
+        SELECT * FROM user WHERE userName = #{userName} AND passWord = #{passWord}
+    </select>
+
+    <insert id="addUser">
+        INSERT INTO user(userName,passWord,role,phoneNumber,userCardID) VALUES (#{userName},#{passWord},#{role},#{phoneNumber},#{userCardID})
+    </insert>
+
+    <delete id="deleteUser">
+        DELETE FROM user WHERE userID = #{userID}
+    </delete>
+
+    <select id="getAllUser" resultType="map">
+        SELECT * FROM user
+    </select>
+
+    <select id="getUserByID" resultType="com.example.erp01.model.User">
+        SELECT * FROM user WHERE userID = #{userID}
+    </select>
+
+    <select id="getUserByName" resultType="com.example.erp01.model.User">
+        SELECT * FROM user WHERE userName = #{userName}
+    </select>
+
+</mapper>

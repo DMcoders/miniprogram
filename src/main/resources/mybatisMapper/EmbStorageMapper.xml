@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp01.mapper.EmbStorageMapper">
+
+    <insert id="embInStore" parameterType="java.util.List">
+        INSERT INTO embstorage(embStoreLocation,tailorQcode) VALUES
+        <foreach collection="list" item="embstorage" separator=",">
+            (#{embstorage.embStoreLocation},#{embstorage.tailorQcode})
+        </foreach>
+    </insert>
+
+    <delete id="embOutStore" parameterType="java.util.List">
+        DELETE FROM embstorage WHERE tailorQcode IN
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!--<select id="getEmbStorageState" resultType="map">-->
+        <!--SELECT embStoreLocation,COUNT(*) as embStorageState  FROM embstorage GROUP BY embStoreLocation-->
+    <!--</select>-->
+
+    <select id="getEmbStorageState" resultType="map">
+      SELECT sh.embStoreLocation, sum(case when tailorQcode is null then 0 else 1 end) as embStorageState, min(sh.embStoreCount) as embStoreCount  FROM embstorage st right join embstore sh ON st.embStoreLocation = sh.embStoreLocation  GROUP BY embStoreLocation order by embStoreLocation asc;
+    </select>
+
+    <select id="embStorageQuery" resultType="hashmap">
+        SELECT embStoreLocation,COUNT(tailorQcode) AS embStorageQueryCount FROM embstorage
+        WHERE tailorQcode LIKE CONCAT(#{orderName},'%')
+        <if test = "colorName!=null">
+            AND tailorQcode LIKE CONCAT('%-%-%-%-',#{colorName},'-%-%-%')
+        </if>
+        <if test = "bedNumber!=null">
+            AND tailorQcode LIKE CONCAT('%-%-',#{bedNumber},'-%-%-%-%-%')
+        </if>
+        <if test = "sizeName!=null">
+            AND tailorQcode LIKE CONCAT('%-%-%-%-%-',#{sizeName},'-%-%')
+        </if>
+        GROUP BY embStoreLocation
+    </select>
+
+</mapper>

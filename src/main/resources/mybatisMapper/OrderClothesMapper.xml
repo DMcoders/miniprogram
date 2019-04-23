@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp01.mapper.OrderClothesMapper">
+
+    <insert id="addOrderClothes" parameterType="java.util.List">
+        INSERT INTO orderclothes(customerName,purchaseMethod,orderName,styleDescription,clothesVersionNumber,colorNumber,colorName,sizeName,count,orderDate,season,deadLine) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.customerName},#{item.purchaseMethod},#{item.orderName},#{item.styleDescription},#{item.clothesVersionNumber},#{item.colorNumber},#{item.colorName},#{item.sizeName},#{item.count},#{item.orderDate},#{item.season},#{item.deadLine})
+        </foreach>
+    </insert>
+
+    <select id="getAllOrderClothes" resultType="map">
+        SELECT * FROM orderclothes
+    </select>
+
+    <select id="getOrderSummary" resultType="map">
+        SELECT min(customerName) as customerName,min(orderName) as orderName,SUM(count) AS orderSum,min(orderDate) as orderDate,min(season) as season,min(deadLine) as deadLine FROM orderclothes GROUP BY orderName
+    </select>
+
+    <select id="getOrderByName" resultType="map">
+        SELECT * FROM orderclothes WHERE orderName=#{orderName}
+    </select>
+
+    <delete id="deleteOrderByName">
+        DELETE FROM orderclothes WHERE orderName=#{orderName}
+    </delete>
+    <select id="getOrderHint" resultType="map">
+        SELECT distinct orderName FROM orderclothes WHERE orderName LIKE CONCAT('%',#{subOrderName},'%')
+    </select>
+    <select id="getColorHint" resultType="map">
+        SELECT distinct colorName FROM orderclothes WHERE orderName=#{orderName}
+    </select>
+    <select id="getCustomerNameByOrderName" resultType="string">
+        SELECT distinct customerName FROM orderclothes WHERE orderName=#{orderName}
+    </select>
+
+    <select id="getOrderInfoByName" parameterType="String" resultType="com.example.erp01.model.CutQueryLeak">
+        SELECT colorName,sizeName,count as orderCount FROM orderclothes WHERE orderName=#{orderName}
+    </select>
+</mapper>

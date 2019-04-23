@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp01.mapper.CustomerMapper">
+
+    <insert id="addCustomer">
+        INSERT INTO customer(customerName,companyName,linkmanName,linkmanPhone,companyAddress) VALUES (#{customerName},#{companyName},#{linkmanName},#{linkmanPhone},#{companyAddress})
+    </insert>
+
+    <delete id="deleteCustomer">
+        DELETE FROM customer WHERE customerID=#{customerID}
+    </delete>
+
+    <select id="getAllCustomer" resultType="map">
+        SELECT * FROM customer
+    </select>
+
+    <select id="getCustomerByID" resultType="com.example.erp01.model.Customer">
+        SELECT * FROM customer WHERE customerID = #{customerID}
+    </select>
+
+    <select id="getCustomerByName" resultType="com.example.erp01.model.Customer">
+        SELECT * FROM customer WHERE customerName = #{customerName}
+    </select>
+
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp01.mapper.StorageMapper">
+
+    <insert id="inStore" parameterType="java.util.List">
+        INSERT IGNORE INTO storage(storehouseLocation,tailorQcode) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.storehouseLocation},#{item.tailorQcode})
+        </foreach>
+    </insert>
+
+    <delete id="outStore" parameterType="java.util.List">
+        DELETE FROM storage WHERE tailorQcode IN
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="getMatch" parameterType="String" resultType="String">
+        SELECT storehouseLocation FROM storage WHERE tailorQcode LIKE CONCAT(#{subTailorQcode},'%') LIMIT 1
+    </select>
+
+    <select id="getStorageState" resultType="map">
+      SELECT sh.storehouseLocation, sum(case when tailorQcode is null then 0 else 1 end) as storageState, min(sh.storehouseCount) as storehouseCount  FROM storage st right join storehouse sh ON st.storehouseLocation = sh.storehouseLocation  GROUP BY storehouseLocation order by storehouseLocation asc;
+    </select>
+
+    <select id="storageReport" parameterType="String" resultType="String">
+        SELECT tailorQcode From storage WHERE storehouseLocation=#{storehouseLocation}
+    </select>
+
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp01.mapper.StoreHouseMapper">
+
+    <resultMap id="storageMap" type="HashMap">
+        <result property="key" column="storehouseLocation" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        <result property="value" column="storehouseCount" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+    </resultMap>
+    <insert id="addStoreHouse">
+        INSERT INTO storehouse(storehouseLocation,storehouseCount) VALUES (#{storehouseLocation},#{storehouseCount})
+    </insert>
+
+    <delete id="deleteStoreHouse">
+        DELETE FROM storehouse WHERE storehouseID = #{storehouseID}
+    </delete>
+
+    <update id="updateStoreHouse" parameterType="com.example.erp01.model.StoreHouse">
+        UPDATE storehouse SET
+        storehouseLocation=#{storehouseLocation},
+        storehouseCount=#{storehouseCount}
+        WHERE storehouseID=#{storehouseID}
+    </update>
+
+    <select id="getAllStoreHouse" resultType="map">
+        SELECT * FROM storehouse
+    </select>
+
+    <select id="getStoreHouseByLocation" parameterType="java.lang.String" resultType="com.example.erp01.model.StoreHouse">
+        SELECT * FROM storehouse WHERE storehouseLocation=#{storehouseLocation}
+    </select>
+
+</mapper>
