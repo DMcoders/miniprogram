@@ -22,8 +22,6 @@ public class OrderProcedureController {
     public String orderProcedureStart(Model model){
         model.addAttribute("bigMenuTag",5);
         model.addAttribute("menuTag",51);
-        List<OrderProcedure> orderProcedures = getAllOrderProcedure();
-        model.addAttribute("orderProcedures",orderProcedures);
         return "miniProgram/orderProcedure";
     }
 
@@ -43,11 +41,13 @@ public class OrderProcedureController {
 
     @RequestMapping(value = "/getallorderprocedure", method = RequestMethod.GET)
     @ResponseBody
-    public List<OrderProcedure> getAllOrderProcedure(){
+    public Map<String, Object> getAllOrderProcedure(){
+        Map<String, Object> map = new HashMap();
         List<OrderProcedure> orderProcedureList = new ArrayList<>();
         orderProcedureList = orderProcedureService.getAllOrderProcedure();
         Collections.sort(orderProcedureList);
-        return orderProcedureList;
+        map.put("data",orderProcedureList);
+        return map;
     }
 
     @RequestMapping(value = "/getorderprocedurebyname", method = RequestMethod.GET)

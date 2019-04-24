@@ -9,45 +9,20 @@
             <div class="col-md-12" style="padding-top: 20px;">
                 <span style="font-size: 20px;font-family: PingFangSC-Semibold">订单工序录入</span>
             </div>
-            <div class="col-md-12" style="padding-top: 20px;">
-                <section class="panel panel-default">
-                    <div class="panel-body" style="text-align: left">
-                        <div class="row" style="margin-left: 10px;margin-bottom: 20px">
-                            <button  class="btn btn-s-lg" style="border-radius: 5px;"  onclick="addOrderProcedure()">录入工序</button>
+            <div class="tab-content">
+                <div class="col-md-12" style="padding-top: 20px;">
+                    <section class="panel panel-default">
+                        <div class="panel-body" style="text-align: left">
+                            <div class="row" style="margin-left: 0;margin-bottom: 20px">
+                                <button  class="btn btn-s-lg" style="border-radius: 5px;color:white;font-family: PingFangSC-Semibold, sans-serif;"  onclick="addOrderProcedure()">录入工序</button>
+                            </div>
+                            <div style="text-align: center;font-family: PingFangSC-Semibold;">
+                                <table id="tb" class="table table-striped table-hover">
+                                </table>
+                            </div>
                         </div>
-                        <div style="overflow-x: auto;overflow-y:auto;max-height: 600px;text-align: center;font-family: PingFangSC-Semibold,sans-serif;">
-                            <table id="tb" class="table table-striped table-bordered ">
-                            <#if orderProcedures?? && orderProcedures?size gt 0>
-                                <thead>
-                                    <tr bgcolor="#ffcb99" style="color: black;">
-                                        <th style="width: 10%;text-align:center;font-size:14px">序号</th>
-                                        <th style="width: 15%;text-align:center;font-size:14px">订单号</th>
-                                        <th style="width: 15%;text-align:center;font-size:14px">工序名</th>
-                                        <th style="width: 15%;text-align:center;font-size:14px">工序单价</th>
-                                        <th style="width: 10%;text-align:center;font-size:14px">工序耗时</th>
-                                        <th style="width: 10%;text-align:center;font-size:14px">操作</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <#list orderProcedures as orderProcedure>
-                                        <tr>
-                                            <td>${orderProcedure_index+1}</td>
-                                            <td>${orderProcedure.orderName!}</td>
-                                            <td>${orderProcedure.procedureName!}</td>
-                                            <td>${orderProcedure.procedurePrice!}</td>
-                                            <td>${orderProcedure.procedureTime!}</td>
-                                            <td><a href="#" style="color:red" onclick="deleteOrderProcedure(${orderProcedure.orderProcedureID?c})">删除</a></td>
-                                            <#--<td><a href="#" style="color:#3e8eea" onclick="addCustomer(${customer.customerID?c},'${customer.customerName!}','${customer.companyName!}','${customer.linkmanName!}','${customer.linkmanPhone!}','${customer.companyAddress!}')">修改</a>&nbsp;&nbsp;<a href="#" style="color:red" onclick="deleteCustomer(${customer.customerID?c})">删除</a></td>-->
-                                        </tr>
-                                    </#list>
-                                </tbody>
-                            <#else>
-                            <h4 style="text-align: center">暂无数据</h4>
-                            </#if>
-                            </table>
-                        </div>
-                    </div>
-                </section>
+                    </section>
+                </div>
             </div>
             <div class="row">
                 <div id="entities" class="col-sm-12">
@@ -64,9 +39,14 @@
     <div class="wrapper">Notification</div>
 </aside>
 </section>
+<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="/css/b.tabs.css" type="text/css">
+
 <script src="/js/common/jquery.blockUI.js" type="text/javascript" ></script>
+<script src="/js/common/b.tabs.js?t=201904221212"></script>
 <script src="/js/common/qrcode.min.js" type="text/javascript" ></script>
-<script src="/js/miniProgram/orderProcedure.js?t=201904232225"></script>
+<script src="/js/miniProgram/orderProcedure.js?t=201904241030"></script>
+
 
 </#macro>
 

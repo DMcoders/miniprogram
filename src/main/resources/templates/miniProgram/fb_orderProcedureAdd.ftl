@@ -13,6 +13,7 @@
                     </td>
                     <td>
                         <input id="orderName" class="form-control" style="width: 100%;margin-bottom: 15px;border-top: none;border-right: none;border-left: none;">
+                        <div id="orderNameTips"></div>
                     </td>
                 </tr>
                 <tr>
