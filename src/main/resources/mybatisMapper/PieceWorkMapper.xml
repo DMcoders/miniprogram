@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp01.mapper.PieceWorkMapper">
+
+    <insert id="addPieceWorkBatch" parameterType="java.util.List">
+        INSERT INTO piecework(employeeNumber,employeeName,groupName,orderName,bedNumber,colorName,packageNumber,layerCount,procedureName,procedurePrice,procedureTime) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.employeeNumber},#{item.employeeName},#{item.groupName},#{item.orderName},#{item.bedNumber},#{item.colorName},#{item.packageNumber},#{item.layerCount},#{item.procedureName},#{item.procedurePrice},#{item.procedureTime})
+        </foreach>
+    </insert>
+
+    <insert id="addPieceWork">
+        INSERT INTO piecework(employeeNumber,employeeName,groupName,orderName,bedNumber,colorName,packageNumber,layerCount,procedureName,procedurePrice,procedureTime) VALUES (#{employeeNumber},#{employeeName},#{groupName},#{orderName},#{bedNumber},#{colorName},#{packageNumber},#{layerCount},#{procedureName},#{procedurePrice},#{procedureTime})
+    </insert>
+
+    <delete id="deletePieceWork">
+        DELETE FROM piecework WHERE pieceWorkID=#{pieceWorkID}
+    </delete>
+
+    <select id="getPieceWorkByID" resultType="com.example.erp01.model.PieceWork">
+        SELECT * FROM piecework WHERE pieceWorkID=#{pieceWorkID}
+    </select>
+
+    <select id="getAllPieceWork" resultType="com.example.erp01.model.PieceWork">
+        SELECT * FROM piecework
+    </select>
+
+    <select id="getPieceWorkByEmpNum" resultType="com.example.erp01.model.PieceWork">
+        SELECT * FROM piecework WHERE employeeNumber=#{employeeNumber}
+    </select>
+
+    <select id="getPieceWorkByTime" resultType="com.example.erp01.model.PieceWork">
+        SELECT * FROM piecework WHERE DATE_FORMAT(createTime,'%Y-%m-%d') BETWEEN #{from} AND #{to}
+    </select>
+
+    <select id="getPieceWorkByEmpNumTime" resultType="com.example.erp01.model.PieceWork">
+        SELECT * FROM piecework WHERE employeeNumber=#{employeeNumber} AND (DATE_FORMAT(createTime,'%Y-%m-%d') BETWEEN #{from} AND #{to})
+    </select>
+
+    <select id="getDetailPieceWork" resultType="com.example.erp01.model.PieceWork">
+        SELECT * FROM piecework
+        WHERE DATE_FORMAT(createTime,'%Y-%m-%d') BETWEEN #{from} AND #{to}
+        <if test="groupName!=null">
+            AND groupName=#{groupName}
+        </if>
+        <if test="employeeNumber!=null">
+            AND employeeNumber=#{employeeNumber}
+        </if>
+    </select>
+
+    <select id="getPieceWorkToday" resultType="com.example.erp01.model.PieceWork">
+        SELECT * FROM piecework WHERE TO_DAYS(createTime) = TO_DAYS(now())
+    </select>
+
+    <select id="getPieceWorkThisMonth" resultType="com.example.erp01.model.PieceWork">
+        SELECT * FROM piecework WHERE DATE_FORMAT(createTime,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')
+    </select>
+
+    <select id="getPieceWorkEmpToday" resultType="com.example.erp01.model.PieceWork">
+        SELECT * FROM piecework WHERE TO_DAYS(createTime) = TO_DAYS(now()) AND employeeNumber=#{employeeNumber}
+    </select>
+
+    <select id="getPieceWorkEmpThisMonth" resultType="com.example.erp01.model.PieceWork">
+        SELECT * FROM piecework WHERE DATE_FORMAT(createTime,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m') AND employeeNumber=#{employeeNumber}
+    </select>
+
+    <select id="queryPieceWorkToday" resultType="hashmap">
+        SELECT p.employeeNumber AS employeeNumber,e.employeeName AS employeeName,e.groupName AS groupName,
+        SUM(p.layerCount) AS pieceCount,SUM(p.layerCount*o.procedurePrice) AS salary,
+        SUM(p.layerCount*o.procedureTime)AS totalTime
+        FROM (( piecework p LEFT JOIN employee e ON p.employeeNumber=e.employeeNumber) LEFT JOIN orderprocedure o ON p.orderName=o.orderName AND p.procedureName=o.procedureName)
+        WHERE TO_DAYS(createTime) = TO_DAYS(now())
+        <if test="groupName!=null">
+            AND groupName=#{groupName}
+        </if>
+        <if test="employeeNumber!=null">
+            AND employeeNumber=#{employeeNumber}
+        </if>
+        GROUP BY employeeNumber
+    </select>
+
+    <select id="queryPieceWorkThisMonth" resultType="hashmap">
+        SELECT p.employeeNumber AS employeeNumber,e.employeeName AS employeeName,e.groupName AS groupName,
+        SUM(p.layerCount) AS pieceCount,SUM(p.layerCount*o.procedurePrice) AS salary,
+        SUM(p.layerCount*o.procedureTime)AS totalTime
+        FROM (( piecework p LEFT JOIN employee e ON p.employeeNumber=e.employeeNumber) LEFT JOIN orderprocedure o ON p.orderName=o.orderName AND p.procedureName=o.procedureName)
+        WHERE DATE_FORMAT(createTime,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')
+        <if test="groupName!=null">
+            AND groupName=#{groupName}
+        </if>
+        <if test="employeeNumber!=null">
+            AND employeeNumber=#{employeeNumber}
+        </if>
+        GROUP BY employeeNumber
+    </select>
+
+    <select id="queryPieceWork" resultType="hashmap">
+        SELECT p.employeeNumber AS employeeNumber,e.employeeName AS employeeName,e.groupName AS groupName,
+        SUM(p.layerCount) AS pieceCount,SUM(p.layerCount*o.procedurePrice) AS salary,
+        SUM(p.layerCount*o.procedureTime)AS totalTime
+        FROM (( piecework p LEFT JOIN employee e ON p.employeeNumber=e.employeeNumber) LEFT JOIN orderprocedure o ON p.orderName=o.orderName AND p.procedureName=o.procedureName)
+        WHERE DATE_FORMAT(createTime,'%Y-%m-%d') BETWEEN #{from} AND #{to}
+        <if test="groupName!=null">
+            AND groupName=#{groupName}
+        </if>
+        <if test="employeeNumber!=null">
+            AND employeeNumber=#{employeeNumber}
+        </if>
+        GROUP BY employeeNumber
+    </select>
+</mapper>

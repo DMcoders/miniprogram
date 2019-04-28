@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp01.mapper.SampleInspectionMapper">
+
+    <insert id="addSampleInspection">
+        INSERT INTO sampleinspection(employeeNumber,orderName,bedNumber,packageNumber,layerCount,wrongCode,wrongQuantity)
+        VALUES (#{employeeNumber},#{orderName},#{bedNumber},#{packageNumber},#{layerCount},#{wrongCode},#{wrongQuantity})
+    </insert>
+
+    <delete id="deleteSampleInspection">
+        DELETE FROM sampleinspection WHERE sampleInspectionID=#{sampleInspectionID}
+    </delete>
+
+    <select id="getAllSampleInspection" resultType="com.example.erp01.model.SampleInspection">
+        SELECT * FROM sampleinspection
+    </select>
+
+    <select id="getSampleInspectionByOrder" resultType="com.example.erp01.model.SampleInspection">
+        SELECT * FROM sampleinspection WHERE orderName=#{orderName}
+    </select>
+
+    <select id="getSampleInspectionByOrderBed" resultType="com.example.erp01.model.SampleInspection">
+        SELECT * FROM sampleinspection WHERE orderName=#{orderName} AND bedNumber=#{bedNumber}
+    </select>
+
+    <select id="getSampleInspectionByEmpOrder" resultType="com.example.erp01.model.SampleInspection">
+        SELECT * FROM sampleinspection WHERE orderName=#{orderName} AND employeeNumber=#{employeeNumber}
+    </select>
+
+    <select id="getSampleInspectionToday" resultType="com.example.erp01.model.SampleInspection">
+        SELECT * FROM sampleinspection WHERE TO_DAYS(createTime) = TO_DAYS(now())
+    </select>
+
+    <select id="getSampleInspectionThisMonth" resultType="com.example.erp01.model.SampleInspection">
+        SELECT * FROM sampleinspection WHERE DATE_FORMAT(createTime,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')
+    </select>
+
+    <select id="getSampleInspectionEmpToday" resultType="com.example.erp01.model.SampleInspection">
+        SELECT * FROM sampleinspection WHERE TO_DAYS(createTime) = TO_DAYS(now()) AND employeeNumber=#{employeeNumber}
+    </select>
+
+    <select id="getSampleInspectionEmpThisMonth" resultType="com.example.erp01.model.SampleInspection">
+        SELECT * FROM sampleinspection WHERE DATE_FORMAT(createTime,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m') AND employeeNumber=#{employeeNumber}
+    </select>
+</mapper>

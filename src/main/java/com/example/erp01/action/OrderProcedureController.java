@@ -64,4 +64,14 @@ public class OrderProcedureController {
         return orderProcedure;
     }
 
+    @RequestMapping(value = "/getprocedurenamesbyorder",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String,Object> getProcedureNamesByOrder(@RequestParam("orderName")String orderName){
+        Map<String, Object> map = new HashMap();
+        List<String> proceNameList = new ArrayList<>();
+        proceNameList = orderProcedureService.getProcedureNamesByOrder(orderName);
+        map.put("proceNameList",proceNameList);
+        return map;
+    }
+
 }

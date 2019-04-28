@@ -16,4 +16,10 @@ public interface OrderProcedureService {
 
     List<OrderProcedure> getOrderProcedureByName(String orderName);
 
+    List<String> getProcedureNamesByOrder(String orderName);
+
+    float getPriceByOrderProcedure(String orderName,String procedureName);
+
+    int getTimeByOrderProcedure(String orderName,String procedureName);
+
 }

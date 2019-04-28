@@ -40,6 +40,16 @@ public class Tailor {
         this.layerCount = layerCount;
     }
 
+    public Tailor(String orderName,String customerName,Integer bedNumber,String colorName,String sizeName,Integer layerCount){
+        this.orderName = orderName;
+        this.customerName = customerName;
+        this.bedNumber = bedNumber;
+        this.colorName = colorName;
+        this.sizeName = sizeName;
+        this.layerCount = layerCount;
+
+    }
+
     public Tailor(String orderName, String customerName, Integer bedNumber, String jarName, String colorName, String sizeName, String partName, Integer layerCount, Integer packageNumber, String tailorQcode) {
         this.orderName = orderName;
         this.customerName = customerName;

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp01.mapper.InspectionMapper">
+
+    <insert id="addInspection">
+        INSERT INTO inspection(employeeNumber,orderName,bedNumber,packageNumber,layerCount,wrongCode,wrongQuantity)
+        VALUES (#{employeeNumber},#{orderName},#{bedNumber},#{packageNumber},#{layerCount},#{wrongCode},#{wrongQuantity})
+    </insert>
+
+    <delete id="deleteInspection">
+        DELETE FROM inspection WHERE inspectionID=#{inspectionID}
+    </delete>
+
+    <select id="getAllInspection" resultType="com.example.erp01.model.Inspection">
+        SELECT * FROM inspection
+    </select>
+
+    <select id="getInspectionByOrder" resultType="com.example.erp01.model.Inspection">
+        SELECT * FROM inspection WHERE orderName=#{orderName}
+    </select>
+
+    <select id="getInspectionByOrderBed" resultType="com.example.erp01.model.Inspection">
+        SELECT * FROM inspection WHERE orderName=#{orderName} AND bedNumber=#{bedNumber}
+    </select>
+
+    <select id="getInspectionByEmpOrder" resultType="com.example.erp01.model.Inspection">
+        SELECT * FROM inspection WHERE orderName=#{orderName} AND employeeNumber=#{employeeNumber}
+    </select>
+
+    <select id="getInspectionToday" resultType="com.example.erp01.model.Inspection">
+        SELECT * FROM inspection WHERE TO_DAYS(createTime) = TO_DAYS(now())
+    </select>
+
+    <select id="getInspectionThisMonth" resultType="com.example.erp01.model.Inspection">
+        SELECT * FROM inspection WHERE DATE_FORMAT(createTime,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')
+    </select>
+
+    <select id="getInspectionEmpToday" resultType="com.example.erp01.model.Inspection">
+        SELECT * FROM inspection WHERE TO_DAYS(createTime) = TO_DAYS(now()) AND employeeNumber=#{employeeNumber}
+    </select>
+
+    <select id="getInspectionEmpThisMonth" resultType="com.example.erp01.model.Inspection">
+        SELECT * FROM inspection WHERE DATE_FORMAT(createTime,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m') AND employeeNumber=#{employeeNumber}
+    </select>
+</mapper>

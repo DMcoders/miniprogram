@@ -24,4 +24,16 @@
         SELECT * FROM orderprocedure WHERE orderName=#{orderName}
     </select>
 
+    <select id="getProcedureNamesByOrder" resultType="map">
+        SELECT procedureName FROM orderprocedure WHERE orderName=#{orderName}
+    </select>
+
+    <select id="getPriceByOrderProcedure" resultType="float">
+        SELECT procedurePrice FROM orderprocedure WHERE orderName=#{orderName} AND procedureName=#{procedureName}
+    </select>
+
+    <select id="getTimeByOrderProcedure" resultType="int">
+        SELECT procedureTime FROM orderprocedure WHERE orderName=#{orderName} AND procedureName=#{procedureName}
+    </select>
+
 </mapper>

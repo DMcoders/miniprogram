@@ -73,4 +73,40 @@ public class OrderProcedureServiceImpl implements OrderProcedureService {
         }
         return orderProcedureList;
     }
+
+    @Override
+    public List<String> getProcedureNamesByOrder(String orderName) {
+        List<String> procedureNames = new ArrayList<>();
+        try{
+            procedureNames = orderProcedureMapper.getProcedureNamesByOrder(orderName);
+            return procedureNames;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return procedureNames;
+
+    }
+
+    @Override
+    public float getPriceByOrderProcedure(String orderName, String procedureName) {
+        try{
+            float procedurePrice = orderProcedureMapper.getPriceByOrderProcedure(orderName, procedureName);
+            return procedurePrice;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public int getTimeByOrderProcedure(String orderName, String procedureName) {
+        try{
+            int procedureTime = orderProcedureMapper.getTimeByOrderProcedure(orderName, procedureName);
+            return procedureTime;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+
+    }
 }

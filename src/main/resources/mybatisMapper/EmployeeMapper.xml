@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp01.mapper.EmployeeMapper">
+
+    <insert id="addEmployee">
+        INSERT INTO employee(employeeName,employeeNumber,password,groupName,identifyCard,bankCard,role,gender,phoneNumber)
+        VALUES (#{employeeName},#{employeeNumber},#{password},#{groupName},#{identifyCard},#{bankCard},#{role},#{gender},#{phoneNumber})
+    </insert>
+
+    <delete id="deleteEmployee">
+        DELETE FROM employee WHERE employeeID=#{employeeID}
+    </delete>
+
+    <select id="getEmpByID" resultType="com.example.erp01.model.Employee">
+        SELECT * FROM employee WHERE employeeID=#{employeeID}
+    </select>
+
+    <update id="updateEmployee" parameterType="com.example.erp01.model.Employee">
+        UPDATE employee SET
+        employeeName=#{employeeName},
+        employeeNumber=#{employeeNumber},
+        password=#{password},
+        groupName=#{groupName},
+        identifyCard=#{identifyCard},
+        bankCard=#{bankCard},
+        role=#{role},
+        gender=#{gender},
+        phoneNumber=#{phoneNumber}
+        WHERE employeeID=#{employeeID}
+    </update>
+    
+    <select id="getAllEmployee" resultType="com.example.erp01.model.Employee">
+        SELECT * FROM employee
+    </select>
+    
+    <select id="getEmpNameByEmpNum" parameterType="String" resultType="String">
+        SELECT employeeName FROM employee WHERE employeeNumber=#{employeeNumber}
+    </select>
+    
+    <select id="getGroupNameByEmpNum" parameterType="String" resultType="String">
+        SELECT groupName FROM employee WHERE employeeNumber=#{employeeNumber}
+    </select>
+
+</mapper>

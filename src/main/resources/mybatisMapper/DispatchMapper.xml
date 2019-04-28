@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp01.mapper.DispatchMapper">
+
+    <insert id="addDispatch">
+        INSERT INTO dispatch(employeeNumber,employeeName,groupName,orderName,procedureName)
+        VALUES (#{employeeNumber},#{employeeName},#{groupName},#{orderName},#{procedureName})
+    </insert>
+
+    <insert id="addDispatchBatch" parameterType="java.util.List">
+        INSERT INTO dispatch(employeeNumber,employeeName,groupName,orderName,procedureName) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.employeeNumber},#{item.employeeName},#{item.groupName},#{item.orderName},#{item.procedureName})
+        </foreach>
+    </insert>
+
+    <delete id="deleteDispatch">
+        DELETE FROM dispatch WHERE dispatchID=#{dispatchID}
+    </delete>
+
+    <select id="getAllDispatch" resultType="com.example.erp01.model.Dispatch">
+        SELECT * FROM dispatch
+    </select>
+
+    <select id="getDispatchByOrder" resultType="com.example.erp01.model.Dispatch">
+        SELECT * FROM dispatch WHERE orderName=#{orderName}
+    </select>
+
+    <select id="getDispatchByGroup" resultType="com.example.erp01.model.Dispatch">
+        SELECT * FROM dispatch WHERE groupName=#{groupName}
+    </select>
+
+    <select id="getDispatchByEmp" resultType="com.example.erp01.model.Dispatch">
+        SELECT * FROM dispatch WHERE employeeNumber=#{employeeNumber}
+    </select>
+
+    <select id="getProcedureNamesByOrderEmp" resultType="map">
+        SELECT procedureName FROM dispatch WHERE orderName=#{orderName} AND employeeNumber=#{employeeNumber}
+    </select>
+
+
+</mapper>
