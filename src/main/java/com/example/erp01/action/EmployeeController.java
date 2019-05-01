@@ -80,4 +80,13 @@ public class EmployeeController {
         return map;
     }
 
+
+    @RequestMapping(value = "/getemphint",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String,Object> getEmpHint(@RequestParam("subEmployeeNumber")String subEmployeeNumber){
+        Map<String,Object> map = new HashMap<>();
+        List<String> empNumberList = employeeService.getEmpHint(subEmployeeNumber);
+        map.put("employeeNumberList",empNumberList);
+        return map;
+    }
 }

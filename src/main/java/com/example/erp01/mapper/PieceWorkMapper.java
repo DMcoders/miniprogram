@@ -27,9 +27,9 @@ public interface PieceWorkMapper {
 
     List<PieceWork> getDetailPieceWork(Date from, Date to, String groupName, String employeeNumber);
 
-    List<PieceWork> getPieceWorkToday();
+    List<Object> getPieceWorkToday();
 
-    List<PieceWork> getPieceWorkThisMonth();
+    List<Object> getPieceWorkThisMonth();
 
     List<PieceWork> getPieceWorkEmpToday(String employeeNumber);
 

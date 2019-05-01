@@ -61,6 +61,18 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public List<String> getEmpHint(String subEmpNumber) {
+        List<String> employeeList = new ArrayList<>();
+        try{
+            employeeList = employeeMapper.getEmpHint(subEmpNumber);
+            return employeeList;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public List<Employee> getAllEmployee() {
         List<Employee> employeeList = new ArrayList<>();
         try{

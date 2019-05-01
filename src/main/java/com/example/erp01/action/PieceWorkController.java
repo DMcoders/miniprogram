@@ -11,11 +11,14 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller(value = "/piecework")
@@ -25,6 +28,22 @@ public class PieceWorkController {
     private PieceWorkService pieceWorkService;
     @Autowired
     private DispatchService dispatchService;
+
+
+    @RequestMapping(value = "/pieceWorkStatisticStart")
+    public String pieceWorkStatisticStart(Model model){
+        model.addAttribute("bigMenuTag",5);
+        model.addAttribute("menuTag",53);
+        return "miniProgram/pieceWorkStatistic";
+    }
+
+    @RequestMapping(value = "/pieceWorkDetailStart")
+    public String pieceWorkDetailStart(Model model){
+        model.addAttribute("bigMenuTag",5);
+        model.addAttribute("menuTag",54);
+        return "miniProgram/pieceWorkDetail";
+    }
+
 
     @RequestMapping(value = "/addpieceworkbatch",method = RequestMethod.POST)
     public int addPieceWorkBatch(@RequestParam("pieceWorkJson") String pieceWorkJson){
@@ -56,12 +75,14 @@ public class PieceWorkController {
     }
 
     @RequestMapping(value = "/addpiecework",method = RequestMethod.POST)
+    @ResponseBody
     public int addPieceWork(PieceWork pieceWork){
         int res = pieceWorkService.addPieceWork(pieceWork);
         return res;
     }
 
     @RequestMapping(value = "/deletepiecework",method = RequestMethod.POST)
+    @ResponseBody
     public int deletePieceWork(Integer pieceWorkID){
         int res = pieceWorkService.deletePieceWork(pieceWorkID);
         return res;
@@ -100,7 +121,7 @@ public class PieceWorkController {
     @ResponseBody
     public Map<String,Object> getPieceWorkToday(){
         Map<String,Object> map = new HashMap<>();
-        List<PieceWork> pieceWorkList = pieceWorkService.getPieceWorkToday();
+        List<Object> pieceWorkList = pieceWorkService.getPieceWorkToday();
         map.put("pieceWorkToday",pieceWorkList);
         return map;
     }
@@ -109,7 +130,7 @@ public class PieceWorkController {
     @ResponseBody
     public Map<String,Object> getPieceWorkThisMonth(){
         Map<String,Object> map = new HashMap<>();
-        List<PieceWork> pieceWorkList = pieceWorkService.getPieceWorkThisMonth();
+        List<Object> pieceWorkList = pieceWorkService.getPieceWorkThisMonth();
         map.put("pieceWorkThisMonth",pieceWorkList);
         return map;
     }
@@ -166,8 +187,8 @@ public class PieceWorkController {
 
     @RequestMapping(value = "/querypiecework",method = RequestMethod.GET)
     @ResponseBody
-    public Map<String,Object> queryPieceWork(@RequestParam("from") Date from,
-                                             @RequestParam("to")Date to,
+    public Map<String,Object> queryPieceWork(@RequestParam("from") String from,
+                                             @RequestParam("to")String to,
                                              @RequestParam("groupName")String groupName,
                                              @RequestParam("employeeNumber")String employeeNumber){
         if("".equals(groupName)){
@@ -177,9 +198,18 @@ public class PieceWorkController {
             employeeNumber = null;
         }
         Map<String,Object> map = new HashMap<>();
-        List<Object> pieceWorkList = pieceWorkService.queryPieceWork(from, to, groupName, employeeNumber);
-        map.put("queryPieceWork",pieceWorkList);
+        try{
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date fromDate = sdf.parse(from);
+            Date toDate = sdf.parse(to);
+            List<Object> pieceWorkList = pieceWorkService.queryPieceWork(fromDate, toDate, groupName, employeeNumber);
+            map.put("queryPieceWork",pieceWorkList);
+            return map;
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
         return map;
+
     }
 
 }

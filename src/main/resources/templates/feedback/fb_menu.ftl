@@ -62,11 +62,12 @@
                             <span class="pull-right"> <i class="fa fa-angle-down text"></i> <i class="fa fa-angle-up text-active"></i> </span>
                             <span>计件管理</span> </a>
                             <ul class="nav lt">
-                                <li<#if menuTag==51> class="active" style="background:rgb(45, 202, 147)" </#if>><a href="/orderProcedureStart"><span class="liActive">订单工序录入</span> </a></li>
-                                <li<#if menuTag==52> class="active" style="background:rgb(45, 202, 147)" </#if>><a href="/cutReportStart"><span class="liActive">生产统计</span> </a></li>
-                                <li<#if menuTag==53> class="active" style="background:rgb(45, 202, 147)" </#if>><a href="/storageReportStart"><span class="liActive">排产明细</span> </a></li>
-                                <li<#if menuTag==54> class="active" style="background:rgb(45, 202, 147)" </#if>><a href="/opaBackQueryStart"><span class="liActive">质检统计</span> </a></li>
-                                <li<#if menuTag==55> class="active" style="background:rgb(45, 202, 147)" </#if>><a href="/cutQueryLeakStart"><span class="liActive">抽检明细</span> </a></li>
+                                <li<#if menuTag==51> class="active" style="background:rgb(45, 202, 147)" </#if>><a href="/orderProcedureStart"><span class="liActive">订单工序管理</span> </a></li>
+                                <li<#if menuTag==52> class="active" style="background:rgb(45, 202, 147)" </#if>><a href="/dispatchStart"><span class="liActive">排产明细</span> </a></li>
+                                <li<#if menuTag==53> class="active" style="background:rgb(45, 202, 147)" </#if>><a href="/pieceWorkStatisticStart"><span class="liActive">生产统计</span> </a></li>
+                                <li<#if menuTag==54> class="active" style="background:rgb(45, 202, 147)" </#if>><a href="/pieceWorkDetailStart"><span class="liActive">计件明细</span> </a></li>
+                                <li<#if menuTag==55> class="active" style="background:rgb(45, 202, 147)" </#if>><a href="/inspectionStart"><span class="liActive">质检统计</span> </a></li>
+                                <li<#if menuTag==56> class="active" style="background:rgb(45, 202, 147)" </#if>><a href="/sampleInspectionStart"><span class="liActive">抽检统计</span> </a></li>
                             </ul>
                         </li>
 

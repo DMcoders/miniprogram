@@ -16,6 +16,8 @@ public interface EmployeeMapper {
 
     int updateEmployee(Employee employee);
 
+    List<String> getEmpHint(String subEmpNumber);
+
     List<Employee> getAllEmployee();
 
     String getEmpNameByEmpNum(String employeeNumber);

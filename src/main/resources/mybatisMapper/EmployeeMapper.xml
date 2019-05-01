@@ -43,4 +43,8 @@
         SELECT groupName FROM employee WHERE employeeNumber=#{employeeNumber}
     </select>
 
+    <select id="getEmpHint" resultType="map">
+        SELECT DISTINCT employeeNumber FROM employee WHERE employeeNumber LIKE CONCAT('%',#{subEmployeeNumber},'%')
+    </select>
+
 </mapper>

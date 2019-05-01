@@ -6,15 +6,13 @@ import com.example.erp01.service.DispatchService;
 import com.google.gson.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller(value = "/dispatch")
 public class DispatchController {
@@ -22,13 +20,23 @@ public class DispatchController {
     @Autowired
     private DispatchService dispatchService;
 
+    @RequestMapping(value = "/dispatchStart")
+    public String dispatchSart(Model model){
+        model.addAttribute("bigMenuTag",5);
+        model.addAttribute("menuTag",52);
+        return "miniProgram/dispatch";
+    }
+
+
     @RequestMapping(value = "/adddispatch",method = RequestMethod.POST)
+    @ResponseBody
     public int addDispatch(Dispatch dispatch){
         int res = dispatchService.addDispatch(dispatch);
         return res;
     }
 
     @RequestMapping(value = "/adddispatchbatch",method = RequestMethod.POST)
+    @ResponseBody
     public int addDispatchBatch(@RequestParam("dispatchJson")String dispatchJson){
         JsonParser jsonParser = new JsonParser();
         try{
@@ -56,7 +64,8 @@ public class DispatchController {
     }
 
     @RequestMapping(value = "/deletedispatch",method = RequestMethod.POST)
-    public int deleteDispatch(@RequestParam("dispatchID")Integer dispatchID){
+    @ResponseBody
+    public int deleteDispatch(@RequestParam("dispatchID")int dispatchID){
         int res = dispatchService.deleteDispatch(dispatchID);
         return res;
     }
@@ -67,7 +76,8 @@ public class DispatchController {
         Map<String,Object> map = new HashMap<>();
         List<Dispatch> dispatchList = new ArrayList<>();
         dispatchList = dispatchService.getAllDispatch();
-        map.put("dispatchList",dispatchList);
+        Collections.sort(dispatchList);
+        map.put("data",dispatchList);
         return map;
     }
 

@@ -1,55 +1,145 @@
 $(document).ready(function () {
-    createOrderTable();
-
-    $('#orderName').keyup(function(){
+    createDispathTable();
+    $('#employeeNumber').keyup(function(){
         var keywords = $(this).val();
-        if (keywords=='') { $('#orderNameTips').hide(); return };
+        if (keywords=='') { $('#employeeNumberTips').hide(); return };
         $.ajax({
-            url: "/getorderhint",
-            data: {"subOrderName": $(this).val()},
+            url: "/getemphint",
+            data: {"subEmployeeNumber": $(this).val()},
             success:function(data){
-                $('#orderNameTips').empty().show();
-                if (data.orderNameList=='')
+                $('#employeeNumberTips').empty().show();
+                if (data.employeeNumberList=='')
                 {
-                    $('#orderNameTips').append('<li class="error" style="color:red;list-style-type:none">没有结果</li>');
+                    $('#employeeNumberTips').append('<li class="error" style="color:red;list-style-type:none">没有结果</li>');
                 }
-                $.each(data.orderNameList, function(index,element){
+                $.each(data.employeeNumberList, function(index,element){
                     if(index < 10) {
-                        $('#orderNameTips').append('<li id="'+element.orderName+'" class="click_work" style="list-style-type:none">' + element.orderName + '</li>');
+                        $('#employeeNumberTips').append('<li id="'+element.employeeNumber+'" class="click_work" style="list-style-type:none">' + element.employeeNumber + '</li>');
                     } else {
-                        $('#orderNameTips').append('<div style="color:lightgray">更多选项请搜索</div>');
+                        $('#employeeNumberTips').append('<div style="color:lightgray">更多选项请搜索</div>');
                         return false;
                     }
                 })
             },
             error:function(){
-                $('#orderNameTips').empty().show();
-                $('#orderNameTips').append('<li style="color:red">搜索发生错误</li>');
+                $('#employeeNumberTips').empty().show();
+                $('#employeeNumberTips').append('<li style="color:red">搜索发生错误</li>');
             }
         });
 
+        autoComplete(keywords);
     });
+
+    // $('#orderName').keyup(function(){
+    //     var keywords = $(this).val();
+    //     if (keywords=='') { $('#orderNameTips').hide(); return };
+    //     $.ajax({
+    //         url: "/getorderhint",
+    //         data: {"subOrderName": $(this).val()},
+    //         success:function(data){
+    //             $('#orderNameTips').empty().show();
+    //             if (data.orderNameList=='')
+    //             {
+    //                 $('#orderNameTips').append('<li class="error" style="color:red;list-style-type:none">没有结果</li>');
+    //             }
+    //             $.each(data.orderNameList, function(index,element){
+    //                 if(index < 10) {
+    //                     $('#orderNameTips').append('<li id="'+element.orderName+'" class="click_work" style="list-style-type:none">' + element.orderName + '</li>');
+    //                 } else {
+    //                     $('#orderNameTips').append('<div style="color:lightgray">更多选项请搜索</div>');
+    //                     return false;
+    //                 }
+    //             })
+    //         },
+    //         error:function(){
+    //             $('#orderNameTips').empty().show();
+    //             $('#orderNameTips').append('<li style="color:red">搜索发生错误</li>');
+    //         }
+    //     });
+    //
+    //     autoCompleteAnother(keywords);
+    // });
 
     $(document).on('click','.click_work',function(){
         var word = $(this).attr("id");
-        $('#orderName').val(word);
-        $('#orderNameTips').hide();
+        $('#employeeNumber').val(word);
+        $('#employeeNumberTips').hide();
 
+        autoComplete(word);
     });
 
-    $("#orderName").blur(function(){
+    $("#employeeNumber").blur(function(){
         setTimeout(function(){
-            $('#orderNameTips').hide();
+            $('#employeeNumberTips').hide();
         },300);
+        autoComplete($(this).val());
     });
+
+
+    // $(document).on('click','.click_work',function(){
+    //     var word = $(this).attr("id");
+    //     $('#orderName').val(word);
+    //     $('#orderNameTips').hide();
+    //
+    //     autoCompleteAnother(word);
+    // });
+    //
+    // $("#orderName").blur(function(){
+    //     setTimeout(function(){
+    //         $('#orderNameTips').hide();
+    //     },300);
+    //     autoCompleteAnother($(this).val());
+    // });
+
 
 });
 
+
+function autoComplete(employeeNumber) {
+    $.ajax({
+        url: "/getempnamebyempnum",
+        data: {"employeeNumber": employeeNumber},
+        success:function(data){
+            $("#employeeName").val(data);
+            $("#employeeName").attr("disabled",true);
+        },
+        error:function(){
+        }
+    });
+    $("#groupName").empty();
+    $.ajax({
+        url: "/getgroupnamebyempnum",
+        data: {"employeeNumber": employeeNumber},
+        success:function(data){
+            $("#groupName").val(data);
+            $("#groupName").attr("disabled",true);
+        },
+        error:function(){
+        }
+    });
+}
+
+
+function autoCompleteAnother(orderName) {
+    $.ajax({
+        url: "/getprocedurenamesbyorder",
+        data: {"orderName": orderName},
+        success:function(data){
+            if (data.proceNameList) {
+                $.each(data.proceNameList, function(index,element){
+                    $("#procedureName").append("<option value="+element.procedureName+">"+element.procedureName+"</option>");
+                })
+            }
+        },
+        error:function(){
+        }
+    });
+}
+
 var basePath=$("#basePath").val();
 
-
 var tb;
-function createOrderTable() {
+function createDispathTable() {
     if (tb != undefined) {
         tb.clear(); //清空一下table
         tb.destroy(); //还原初始化了的datatable
@@ -57,7 +147,7 @@ function createOrderTable() {
     tb = $('#tb').DataTable({
         "retrieve": true,
         "ajax": {
-            "url": basePath + "getallorderprocedure",
+            "url": basePath + "getalldispatch",
             "data": {},
             "error": function () {
                 swal("OMG!", "发生了未知错误，请联系技术童鞋～～～!", "error");
@@ -99,29 +189,35 @@ function createOrderTable() {
             },{
                 "data": "orderName",
                 "title":"订单号",
-                "width":"13%",
+                "width":"10%",
                 "defaultContent": "",
                 "sClass": "text-center",
             }, {
                 "data": "procedureName",
-                "title":"工序名",
+                "title": "工序",
                 "width":"10%",
                 "defaultContent": "",
                 "sClass": "text-center",
             }, {
-                "data": "procedurePrice",
-                "title":"工序单价",
+                "data": "employeeNumber",
+                "title":"工号",
                 "width":"10%",
                 "defaultContent": "",
                 "sClass": "text-center",
             }, {
-                "data": "procedureTime",
-                "title":"工序耗时",
+                "data": "employeeName",
+                "title":"姓名",
                 "width":"10%",
                 "defaultContent": "",
                 "sClass": "text-center",
             }, {
-                "data": "orderProcedureID",
+                "data": "groupName",
+                "title":"组名",
+                "width":"10%",
+                "defaultContent": "",
+                "sClass": "text-center",
+            }, {
+                "data": "dispatchID",
                 "title": "操作",
                 "width":"8%",
                 "defaultContent": "",
@@ -131,10 +227,10 @@ function createOrderTable() {
         "columnDefs" :
             [{
                 "orderable" : false, // 禁用排序
-                "targets" : [5], // 指定的列
-                "data" : "orderProcedureID",
+                "targets" : [6], // 指定的列
+                "data" : "dispatchID",
                 "render" : function(data, type, full, meta) {
-                    return "<a href='#' style='color:#ff0000' onclick='deleteOrderProcedure("+data+")'>删除</a>";
+                    return "<a href='#' style='color:#ff0000' onclick='deleteDispatch("+data+")'>删除</a>";
                 }
             }],
 
@@ -143,7 +239,7 @@ function createOrderTable() {
 
 
 
-function addOrderProcedure(orderProcedureID,orderName,procedureName,procedurePrice,procedureTime) {
+function addDispatch(dispatchID,employeeNumber,employeeName,groupName,orderName,procedureName) {
     $.blockUI({
         css: {
             width: '30%',
@@ -158,25 +254,26 @@ function addOrderProcedure(orderProcedureID,orderName,procedureName,procedurePri
         },
         message: $('#editPro')
     });
-    var url = basePath + "addorderprocedure";
+    var url = basePath + "adddispatch";
     $("#editYes").unbind("click").bind("click", function () {
-        if($("#orderName").val().trim()=="") {
-            swal({type:"warning",title:"",text: "<span style=\"font-weight:bolder;font-size: 20px\">请输入订单号！</span>",html: true});
+        if($("#employeeNumber").val().trim()=="") {
+            swal({type:"warning",title:"",text: "<span style=\"font-weight:bolder;font-size: 20px\">请输入工号！</span>",html: true});
             return false;
         }
-        if($("#procedureName").val().trim()=="") {
-            swal({type:"warning",title:"",text: "<span style=\"font-weight:bolder;font-size: 20px\">请输入工序名！</span>",html: true});
+        if($("#orderName").val().trim()=="") {
+            swal({type:"warning",title:"",text: "<span style=\"font-weight:bolder;font-size: 20px\">请输入订单号！</span>",html: true});
             return false;
         }
         $.ajax({
             url: url,
             type: 'POST',
             data: {
-                orderProcedureID:orderProcedureID,
+                dispatchID:dispatchID,
+                employeeNumber:$("#employeeNumber").val(),
+                employeeName:$("#employeeName").val(),
+                groupName:$("#groupName").val(),
                 orderName:$("#orderName").val(),
-                procedureName:$("#procedureName").val(),
-                procedurePrice:$("#procedurePrice").val(),
-                procedureTime:$("#procedureTime").val()
+                procedureName:$("#procedureName").val()
             },
             success: function (data) {
                 if(data == 0) {
@@ -189,7 +286,7 @@ function addOrderProcedure(orderProcedureID,orderName,procedureName,procedurePri
                         html: true
                     },
                     function(){
-                        location.href=basePath+"orderProcedureStart";
+                        location.href=basePath+"dispatchStart";
                     });
                 }else {
                     swal({type:"error",title:"",text: "<span style=\"font-weight:bolder;font-size: 20px\">对不起，保存失败！</span>",html: true});
@@ -209,11 +306,7 @@ function addOrderProcedure(orderProcedureID,orderName,procedureName,procedurePri
 
 
 
-
-
-
-
-function deleteOrderProcedure(orderProcedureID) {
+function deleteDispatch(dispatchID) {
     swal({
         title: "",
         text: "<span style=\"font-weight:bolder;font-size: 20px\">您确定要删除吗？</span>",
@@ -227,10 +320,10 @@ function deleteOrderProcedure(orderProcedureID) {
         showLoaderOnConfirm: true
     }, function() {
         $.ajax({
-            url: basePath + "deleteorderprocedure",
+            url: basePath + "deletedispatch",
             type:'POST',
             data: {
-                orderProcedureID:orderProcedureID
+                dispatchID:dispatchID
             },
             success: function (data) {
                 if(data == 0) {
@@ -243,7 +336,7 @@ function deleteOrderProcedure(orderProcedureID) {
                             html: true
                         },
                         function(){
-                            location.href=basePath+"orderProcedureStart";
+                            location.href=basePath+"dispatchStart";
                         });
                 }else {
                     swal({type:"error",title:"",text: "<span style=\"font-weight:bolder;font-size: 20px\">对不起，删除失败！</span>",html: true});

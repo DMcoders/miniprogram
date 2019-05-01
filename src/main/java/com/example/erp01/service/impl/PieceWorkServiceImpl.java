@@ -123,8 +123,8 @@ public class PieceWorkServiceImpl implements PieceWorkService {
     }
 
     @Override
-    public List<PieceWork> getPieceWorkToday() {
-        List<PieceWork> pieceWorkList = new ArrayList<>();
+    public List<Object> getPieceWorkToday() {
+        List<Object> pieceWorkList = new ArrayList<>();
         try{
             pieceWorkList = pieceWorkMapper.getPieceWorkToday();
             return pieceWorkList;
@@ -135,8 +135,8 @@ public class PieceWorkServiceImpl implements PieceWorkService {
     }
 
     @Override
-    public List<PieceWork> getPieceWorkThisMonth() {
-        List<PieceWork> pieceWorkList = new ArrayList<>();
+    public List<Object> getPieceWorkThisMonth() {
+        List<Object> pieceWorkList = new ArrayList<>();
         try{
             pieceWorkList = pieceWorkMapper.getPieceWorkThisMonth();
             return pieceWorkList;

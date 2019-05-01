@@ -50,12 +50,18 @@
         </if>
     </select>
 
-    <select id="getPieceWorkToday" resultType="com.example.erp01.model.PieceWork">
-        SELECT * FROM piecework WHERE TO_DAYS(createTime) = TO_DAYS(now())
+    <select id="getPieceWorkToday" resultType="hashmap">
+        SELECT p.pieceWorkID AS pieceWorkID, p.employeeNumber AS employeeNumber,e.employeeName AS employeeName,e.groupName AS groupName,
+        p.orderName AS orderName, p.bedNumber AS bedNumber, p.colorName AS colorName, p.packageNumber AS packageNumber,
+        p.layerCount AS layerCount, p.procedureName AS procedureName FROM (piecework p LEFT JOIN employee e ON p.employeeNumber=e.employeeNumber)
+        WHERE TO_DAYS(p.createTime) = TO_DAYS(now())
     </select>
 
-    <select id="getPieceWorkThisMonth" resultType="com.example.erp01.model.PieceWork">
-        SELECT * FROM piecework WHERE DATE_FORMAT(createTime,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')
+    <select id="getPieceWorkThisMonth" resultType="hashmap">
+        SELECT p.pieceWorkID AS pieceWorkID, p.employeeNumber AS employeeNumber,e.employeeName AS employeeName,e.groupName AS groupName,
+        p.orderName AS orderName, p.bedNumber AS bedNumber, p.colorName AS colorName, p.packageNumber AS packageNumber,
+        p.layerCount AS layerCount, p.procedureName AS procedureName FROM (piecework p LEFT JOIN employee e ON p.employeeNumber=e.employeeNumber)
+        WHERE DATE_FORMAT(p.createTime,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')
     </select>
 
     <select id="getPieceWorkEmpToday" resultType="com.example.erp01.model.PieceWork">
@@ -71,7 +77,7 @@
         SUM(p.layerCount) AS pieceCount,SUM(p.layerCount*o.procedurePrice) AS salary,
         SUM(p.layerCount*o.procedureTime)AS totalTime
         FROM (( piecework p LEFT JOIN employee e ON p.employeeNumber=e.employeeNumber) LEFT JOIN orderprocedure o ON p.orderName=o.orderName AND p.procedureName=o.procedureName)
-        WHERE TO_DAYS(createTime) = TO_DAYS(now())
+        WHERE TO_DAYS(p.createTime) = TO_DAYS(now())
         <if test="groupName!=null">
             AND groupName=#{groupName}
         </if>
@@ -86,7 +92,7 @@
         SUM(p.layerCount) AS pieceCount,SUM(p.layerCount*o.procedurePrice) AS salary,
         SUM(p.layerCount*o.procedureTime)AS totalTime
         FROM (( piecework p LEFT JOIN employee e ON p.employeeNumber=e.employeeNumber) LEFT JOIN orderprocedure o ON p.orderName=o.orderName AND p.procedureName=o.procedureName)
-        WHERE DATE_FORMAT(createTime,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')
+        WHERE DATE_FORMAT(p.createTime,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')
         <if test="groupName!=null">
             AND groupName=#{groupName}
         </if>
@@ -101,7 +107,7 @@
         SUM(p.layerCount) AS pieceCount,SUM(p.layerCount*o.procedurePrice) AS salary,
         SUM(p.layerCount*o.procedureTime)AS totalTime
         FROM (( piecework p LEFT JOIN employee e ON p.employeeNumber=e.employeeNumber) LEFT JOIN orderprocedure o ON p.orderName=o.orderName AND p.procedureName=o.procedureName)
-        WHERE DATE_FORMAT(createTime,'%Y-%m-%d') BETWEEN #{from} AND #{to}
+        WHERE DATE_FORMAT(p.createTime,'%Y-%m-%d') BETWEEN #{from} AND #{to}
         <if test="groupName!=null">
             AND groupName=#{groupName}
         </if>

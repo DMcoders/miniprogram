@@ -1,6 +1,6 @@
 package com.example.erp01.model;
 
-public class Dispatch {
+public class Dispatch implements Comparable<Dispatch> {
 
     private Integer dispatchID;
 
@@ -92,5 +92,10 @@ public class Dispatch {
 
     public void setProcedureName(String procedureName) {
         this.procedureName = procedureName;
+    }
+
+    @Override
+    public int compareTo(Dispatch o) {
+        return this.getOrderName().compareTo(o.getOrderName());
     }
 }

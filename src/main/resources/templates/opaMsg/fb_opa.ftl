@@ -83,7 +83,7 @@
 <script src="/js/common/laydate.js" type="text/javascript" ></script>
 <script src="/js/common/b.tabs.js?t=201904221212"></script>
 <link rel="stylesheet" href="/css/selectize.bootstrap3.css" type="text/css">
-    <script src="/js/common/selectize.js" type="text/javascript"></script>
+<script src="/js/common/selectize.js" type="text/javascript"></script>
 <script src="/js/opaMsg/opa.js?t=201904181212"></script>
 
 </#macro>

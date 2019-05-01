@@ -27,13 +27,13 @@
         DELETE FROM orderclothes WHERE orderName=#{orderName}
     </delete>
     <select id="getOrderHint" resultType="map">
-        SELECT distinct orderName FROM orderclothes WHERE orderName LIKE CONCAT('%',#{subOrderName},'%')
+        SELECT DISTINCT orderName FROM orderclothes WHERE orderName LIKE CONCAT('%',#{subOrderName},'%')
     </select>
     <select id="getColorHint" resultType="map">
-        SELECT distinct colorName FROM orderclothes WHERE orderName=#{orderName}
+        SELECT DISTINCT colorName FROM orderclothes WHERE orderName=#{orderName}
     </select>
     <select id="getCustomerNameByOrderName" resultType="string">
-        SELECT distinct customerName FROM orderclothes WHERE orderName=#{orderName}
+        SELECT DISTINCT customerName FROM orderclothes WHERE orderName=#{orderName}
     </select>
 
     <select id="getOrderInfoByName" parameterType="String" resultType="com.example.erp01.model.CutQueryLeak">

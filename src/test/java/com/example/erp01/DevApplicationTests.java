@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -24,8 +25,8 @@ public class DevApplicationTests {
     @Test
     public void contextLoads() {
 
-        int res = dispatchController.addDispatchBatch("{\"orderName\":\"20190123\",\"procedureName\":\"袖子\",\"groupName\":\"1\",\"emp\":[{\"employeeNumber\":\"2019001\",\"employeeName\":\"小二\"}]}");
-        System.out.println(res);
+        Map<String,Object> map = dispatchController.getAllDispatch();
+        System.out.println(map.get("dispatchList"));
     }
 
 }
