@@ -4,30 +4,13 @@
         <section class="scrollable padder water-mark-visible-ff">
             <ul class="breadcrumb no-border no-radius b-b b-light pull-in">
                 <li><a href="/homepage"><i class="fa fa-home"></i> Home</a></li>
-                <li class="active">计件明细</li>
+                <li class="active">抽检统计</li>
             </ul>
             <div class="col-md-12" style="padding-top: 20px;">
                 <section class="panel panel-default">
                     <div class="panel-body">
-                        <div class="row" style="margin-bottom: 10px">
-                            <div class="col-md-2" style="padding:0;text-align: left; margin-left: 10px;">
-                                <button  class="btn" style="border-radius: 5px;color:white;font-family: PingFangSC-Semibold, sans-serif;width:60%;"  onclick="addPieceWork()">手动输入</button>
-                            </div>
-                            <div class="col-md-2" style="padding:0;margin-left: 50px;">
-                            </div>
-                            <div class="col-md-2" style="padding:0;margin-left: 50px;">
-                            </div>
-                            <div class="col-md-2" style="padding:0;margin-left: 50px;">
-                            </div>
-                            <div class="col-md-2" style="padding:0;text-align: right; margin-left: 0px;">
-                                <select class="btn btn-default" style="border-radius: 5px;color:black;font-family: PingFangSC-Semibold, sans-serif;width:60%;" onchange="changeTable(this)">
-                                    <option value="today">今日</option>
-                                    <option value="thisMonth">本月</option>
-                                </select>
-                            </div>
-                        </div>
                         <div style="text-align: center;font-family: PingFangSC-Semibold;">
-                            <table id="pieceWorkDetailTable" class="table table-striped table-hover">
+                            <table id="sampleInspectionTable" class="table table-striped table-hover">
                             </table>
                         </div>
                     </div>
@@ -59,7 +42,7 @@
 <script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
 
-<script src="/js/miniProgram/pieceWorkDetail.js?t=201905012105"></script>
+<script src="/js/miniProgram/sampleInspection.js?t=201905012058"></script>
 
 
 </#macro>

@@ -4,6 +4,7 @@ import com.example.erp01.model.SampleInspection;
 import com.example.erp01.service.SampleInspectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +19,13 @@ public class SampleInspectionController {
 
     @Autowired
     private SampleInspectionService sampleInspectionService;
+
+    @RequestMapping(value = "/sampleInspectionStart")
+    public String inspectionStart(Model model){
+        model.addAttribute("bigMenuTag",5);
+        model.addAttribute("menuTag",57);
+        return "miniProgram/sampleInspection";
+    }
 
     @RequestMapping(value = "/addsampleinspection",method = RequestMethod.POST)
     public int addInspection(SampleInspection sampleInspection){
@@ -104,5 +112,13 @@ public class SampleInspectionController {
         return map;
     }
 
+    @RequestMapping(value = "/getsampleinspectionsummary",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String,Object> getSampleInspectionSummary(){
+        Map<String,Object> map = new HashMap<>();
+        List<Object> sampleInspectionList = sampleInspectionService.getSampleInspectionSummary();
+        map.put("data",sampleInspectionList);
+        return map;
+    }
 
 }

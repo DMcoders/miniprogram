@@ -29,4 +29,6 @@ public interface SampleInspectionMapper {
 
     List<SampleInspection> getSampleInspectionEmpThisMonth(String employeeNumber);
 
+    List<Object> getSampleInspectionSummary();
+
 }

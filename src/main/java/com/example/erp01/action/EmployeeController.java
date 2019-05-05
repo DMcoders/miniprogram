@@ -5,6 +5,7 @@ import com.example.erp01.model.Employee;
 import com.example.erp01.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,9 +22,19 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
+    @RequestMapping(value = "/employeeStart")
+    public String inspectionStart(Model model){
+        model.addAttribute("bigMenuTag",5);
+        model.addAttribute("menuTag",50);
+        return "miniProgram/employee";
+    }
+
     @RequestMapping(value = "/addemployee",method = RequestMethod.POST)
     public int addEmployee(Employee employee){
-        int res = employeeService.addEmployee(employee);
+        String idCard = employee.getIdentifyCard();
+        String passWord = idCard.substring(idCard.length()-6);
+        Employee employee1 = new Employee(employee.getEmployeeName(),employee.getEmployeeNumber(),passWord,employee.getGroupName(),idCard,employee.getBankCard(),employee.getRole(),employee.getPhoneNumber());
+        int res = employeeService.addEmployee(employee1);
         return res;
     }
 
@@ -52,7 +63,7 @@ public class EmployeeController {
         Map<String, Object> map = new HashMap<>();
         List<Employee> employeeList = new ArrayList<>();
         employeeList = employeeService.getAllEmployee();
-        map.put("employeeList",employeeList);
+        map.put("data",employeeList);
         return map;
     }
 

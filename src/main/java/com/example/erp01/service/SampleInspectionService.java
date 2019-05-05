@@ -27,4 +27,6 @@ public interface SampleInspectionService {
 
     List<SampleInspection> getSampleInspectionEmpThisMonth(String employeeNumber);
 
+    List<Object> getSampleInspectionSummary();
+
 }

@@ -4,21 +4,26 @@ import com.example.erp01.model.Inspection;
 import com.example.erp01.service.InspectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller(value = "/inspection")
 public class InspectionController {
 
     @Autowired
     private InspectionService inspectionService;
+
+    @RequestMapping(value = "/inspectionStart")
+    public String inspectionStart(Model model){
+        model.addAttribute("bigMenuTag",5);
+        model.addAttribute("menuTag",56);
+        return "miniProgram/inspection";
+    }
 
     @RequestMapping(value = "/addinspection",method = RequestMethod.POST)
     public int addInspection(Inspection inspection){
@@ -37,6 +42,7 @@ public class InspectionController {
     public Map<String,Object> getAllInspection(){
         Map<String,Object> map = new HashMap<>();
         List<Inspection> inspectionList = inspectionService.getAllInspection();
+        Collections.sort(inspectionList);
         map.put("allInspection",inspectionList);
         return map;
     }
@@ -102,6 +108,15 @@ public class InspectionController {
         Map<String,Object> map = new HashMap<>();
         List<Inspection> inspectionList = inspectionService.getInspectionEmpThisMonth(employeeNumber);
         map.put("inspectionEmpThisMonth",inspectionList);
+        return map;
+    }
+
+    @RequestMapping(value = "/getinspectionsummary",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String,Object> getInspectionSummary(){
+        Map<String,Object> map = new HashMap<>();
+        List<Object> inspectionList = inspectionService.getInspectionSummary();
+        map.put("data",inspectionList);
         return map;
     }
 

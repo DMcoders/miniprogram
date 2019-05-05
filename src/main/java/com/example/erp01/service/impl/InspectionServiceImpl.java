@@ -132,4 +132,16 @@ public class InspectionServiceImpl implements InspectionService {
         }
         return null;
     }
+
+    @Override
+    public List<Object> getInspectionSummary() {
+        List<Object> inspectionList = new ArrayList<>();
+        try{
+            inspectionList = inspectionMapper.getInspectionSummary();
+            return inspectionList;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -5,8 +5,8 @@
 <mapper namespace="com.example.erp01.mapper.EmployeeMapper">
 
     <insert id="addEmployee">
-        INSERT INTO employee(employeeName,employeeNumber,password,groupName,identifyCard,bankCard,role,gender,phoneNumber)
-        VALUES (#{employeeName},#{employeeNumber},#{password},#{groupName},#{identifyCard},#{bankCard},#{role},#{gender},#{phoneNumber})
+        INSERT INTO employee(employeeName,employeeNumber,password,groupName,identifyCard,bankCard,role,phoneNumber)
+        VALUES (#{employeeName},#{employeeNumber},#{password},#{groupName},#{identifyCard},#{bankCard},#{role},#{phoneNumber})
     </insert>
 
     <delete id="deleteEmployee">

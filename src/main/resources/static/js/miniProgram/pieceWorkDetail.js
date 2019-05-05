@@ -54,7 +54,9 @@ function createPieceWorkDetailTable(data){
                 }
             }
         }],
-        "paging": false,
+        pageLength : 13,// 每页显示10条数据
+        pagingType : "full_numbers", // 分页样式：simple,simple_numbers,full,full_numbers，
+        "paging": true,
         "info": false,
         searching:true,
         lengthChange:false,
@@ -208,5 +210,7 @@ function changeTable(obj){
     }
 }
 
+function addPieceWork(){
 
+}
 

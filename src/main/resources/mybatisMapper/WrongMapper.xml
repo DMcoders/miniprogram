@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp01.mapper.WrongMapper">
+
+    <insert id="addWrong">
+        INSERT INTO wrong(wrongCode,wrongDescription,orderName) VALUES (#{wrongCode},#{wrongDescription},#{orderName})
+    </insert>
+
+    <delete id="deleteWrong">
+        DELETE FROM wrong WHERE wrongCodeID=#{wrongCodeID}
+    </delete>
+
+    <select id="getAllWrong" resultType="com.example.erp01.model.Wrong">
+        SELECT * FROM wrong
+    </select>
+</mapper>

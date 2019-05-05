@@ -44,4 +44,8 @@
     <select id="getSampleInspectionEmpThisMonth" resultType="com.example.erp01.model.SampleInspection">
         SELECT * FROM sampleinspection WHERE DATE_FORMAT(createTime,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m') AND employeeNumber=#{employeeNumber}
     </select>
+
+    <select id="getSampleInspectionSummary" resultType="hashmap">
+        SELECT orderName,wrongCode,SUM(wrongQuantity) AS wrongCount,SUM(wrongQuantity)/SUM(layerCount) AS wrongPercent FROM sampleinspection GROUP BY orderName,wrongCode
+    </select>
 </mapper>

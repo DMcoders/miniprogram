@@ -1,6 +1,7 @@
 package com.example.erp01.action;
 
 import com.example.erp01.model.CutQueryLeak;
+import com.example.erp01.model.OPA;
 import com.example.erp01.model.Tailor;
 import com.example.erp01.service.TailorService;
 import com.google.gson.*;
@@ -186,13 +187,12 @@ public class TailorController {
      */
     @RequestMapping(value = "/tailorreport", method = RequestMethod.GET)
     @ResponseBody
-    public String getTailorReport(@RequestParam("orderName")String orderName,
+    public Map<String,Object> getTailorReport(@RequestParam("orderName")String orderName,
                                   @RequestParam("bedNumber")int bedNumber){
-
+        Map<String, Object> map = new HashMap<>();
         List<Object> reportList = tailorService.tailorReport(orderName, bedNumber);
-        Gson gson = new Gson();
-        String res = gson.toJson(reportList);
-        return res;
+        map.put("reportList",reportList);
+        return map;
     }
 
 

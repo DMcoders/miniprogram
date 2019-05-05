@@ -131,4 +131,16 @@ public class SampleInspectionServiceImpl implements SampleInspectionService {
         }
         return null;
     }
+
+    @Override
+    public List<Object> getSampleInspectionSummary() {
+        List<Object> sampleInspectionList = new ArrayList<>();
+        try{
+            sampleInspectionList = sampleInspectionMapper.getSampleInspectionSummary();
+            return sampleInspectionList;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

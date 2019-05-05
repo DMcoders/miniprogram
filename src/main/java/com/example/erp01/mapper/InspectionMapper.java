@@ -29,5 +29,6 @@ public interface InspectionMapper {
 
     List<Inspection> getInspectionEmpThisMonth(String employeeNumber);
 
+    List<Object> getInspectionSummary();
 
 }

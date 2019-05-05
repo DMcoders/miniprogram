@@ -27,4 +27,6 @@ public interface InspectionService {
 
     List<Inspection> getInspectionEmpThisMonth(String employeeNumber);
 
+    List<Object> getInspectionSummary();
+
 }
